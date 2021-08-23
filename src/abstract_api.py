@@ -100,7 +100,8 @@ def register_metric(*args):
 
 class AbstractApi(ABC):
     """
-    This class is an abstract class that includes implementations for common methods and forces its subclasses to implement abstract methods.
+    This class is an abstract class that includes implementations for common methods
+    and forces its subclasses to implement abstract methods.
 
     The common methods include:
         - reading data via calling an api and cacheing the results
