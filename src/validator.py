@@ -10,6 +10,7 @@ from exceptions.collection_exceptions import (
 
 
 def get_valid_services():
+
     list_of_clsmembers = inspect.getmembers(config, inspect.isclass)
     list_of_clsmembers = [
         cls[0].replace("Config", "").lower() for cls in list_of_clsmembers
@@ -22,7 +23,7 @@ def get_service_cls(service, config):
     clsname = "{}{}".format(str(service).title(), "Config")
 
     list_of_clsmembers = inspect.getmembers(config, inspect.isclass)
-    cls_obj = [cls[1] for cls in list_of_clsmembers if clsname == cls[0]][0]
+    cls_obj = next(cls[1] for cls in list_of_clsmembers if cls[0] == clsname)
 
     return cls_obj
 
