@@ -239,7 +239,6 @@ class AbstractApi(ABC):
             p_instance.set(val)
         else:
             raise UnsupportedPrometheusInstance
-        return
 
     def get_metric(self, metric):
         """
