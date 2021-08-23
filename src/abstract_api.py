@@ -1,7 +1,8 @@
-import requests
 import datetime
 
-from abc import ABC, abstractmethod
+from abc import ABC
+
+import requests
 
 from prometheus_client import Summary, Counter, Gauge, Histogram
 from exceptions.collection_exceptions import UnsupportedPrometheusInstance
