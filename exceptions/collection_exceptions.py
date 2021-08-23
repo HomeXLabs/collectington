@@ -1,14 +1,16 @@
+"""A module to define exceptions that could occur during web scraping."""
+
 class InvalidServiceTypeException(Exception):
-    pass
+    """Service type is not considered valid."""
 
 
 class InvalidMetricTypeException(Exception):
-    pass
+    """Metric type is not considered valid."""
 
 
 class UndefinedMetricException(Exception):
-    pass
+    """Metric being used has not been defined."""
 
 
 class UnsupportedPrometheusInstance(Exception):
-    pass
+    """The prometheus instance being used in not supported."""
