@@ -194,8 +194,10 @@ class AbstractApi(ABC):
         """
         for p_instance in list_of_metric_instances:
             metric = str(p_instance).split(":")[1]
-
-            if metric in self.config.PROMETHEUS_METRIC_LABELS:
+            if (
+                hasattr(self.config, "PROMETHEUS_METRIC_LABELS")
+                and metric in self.config.PROMETHEUS_METRIC_LABELS
+            ):
                 for labels_and_metric_object in service_metric_dict[metric]:
                     label_list = self.config.PROMETHEUS_METRIC_LABELS[metric]
                     labels, val = self._split_labeled_metric_dict(
