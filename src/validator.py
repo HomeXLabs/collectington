@@ -20,6 +20,7 @@ def get_valid_services():
 
 
 def get_service_cls(service, external_config):
+    """Return service as an object."""
     clsname = "{}{}".format(str(service).title(), "Config")
 
     list_of_clsmembers = inspect.getmembers(external_config, inspect.isclass)

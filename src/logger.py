@@ -1,8 +1,10 @@
+"""Module that contains function to create a logger object."""
 import logging
 from config import config
 
 
 def setup_logging():
+    """Return logger object."""
     log_formatter = logging.Formatter(
         config.BaseConfig.LOG_MSG_FORMAT, config.BaseConfig.LOG_DATE_FORMAT
     )
