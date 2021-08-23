@@ -2,7 +2,7 @@ import inspect
 
 from functools import wraps
 
-import config.config as config
+from config import config
 from exceptions.collection_exceptions import (
     InvalidServiceTypeException,
     InvalidMetricTypeException,
