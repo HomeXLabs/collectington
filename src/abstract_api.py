@@ -1,7 +1,8 @@
-import requests
 import datetime
 
-from abc import ABC, abstractmethod
+from abc import ABC
+
+import requests
 
 from prometheus_client import Summary, Counter, Gauge, Histogram
 from exceptions.collection_exceptions import UnsupportedPrometheusInstance
@@ -99,7 +100,8 @@ def register_metric(*args):
 
 class AbstractApi(ABC):
     """
-    This class is an abstract class that includes implementations for common methods and forces its subclasses to implement abstract methods.
+    This class is an abstract class that includes implementations for common methods
+    and forces its subclasses to implement abstract methods.
 
     The common methods include:
         - reading data via calling an api and cacheing the results
@@ -238,7 +240,6 @@ class AbstractApi(ABC):
             p_instance.set(val)
         else:
             raise UnsupportedPrometheusInstance
-        return
 
     def get_metric(self, metric):
         """

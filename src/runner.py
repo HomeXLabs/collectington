@@ -9,7 +9,7 @@ from argparse import ArgumentParser
 import requests
 from prometheus_client import start_http_server, Summary, Counter
 
-import configs.config as config
+from config import config
 from src.logger import setup_logging
 from src.api_factory import ApiFactory
 from src.validator import get_service_cls, validate_service

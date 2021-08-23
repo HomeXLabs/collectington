@@ -1,9 +1,11 @@
+"""A collection of utility functions"""
 from datetime import datetime, timedelta
 
 import hvac
 
 
 def read_file_content_into_list(file_path):
+    """Read lines from a file, and remove speech marks (")."""
     if file_path is None:
         return None
 
@@ -14,13 +16,16 @@ def read_file_content_into_list(file_path):
 
 
 def convert_list_of_key_value_pairs_to_dict(list_of_key_value_pairs):
+    """Receive a list of strings, containing unparsed key-value pairs.
+       Return a dictionary of parsed key-value pairs."""
     if not list_of_key_value_pairs:
         return {}
 
-    return dict([tuple(x.split("=")) for x in list_of_key_value_pairs])
+    return dict(x.split("=") for x in list_of_key_value_pairs)
 
 
 def get_credentials_from_secret_file(file_path):
+    """Return a dictionary of credentials from a file."""
     list_of_key_value_pairs = read_file_content_into_list(file_path)
     dict_of_credentials = convert_list_of_key_value_pairs_to_dict(
         list_of_key_value_pairs
@@ -29,20 +34,22 @@ def get_credentials_from_secret_file(file_path):
 
 
 def get_iso_timestamp_x_min_ago(minutes):
+    """Return a timestamp of 'x' minutes ago, with microseconds set to 0."""
     timestamp = datetime.utcnow() - timedelta(minutes=minutes)
     return timestamp.replace(microsecond=0).isoformat()
 
 
-def get_latency_seconds(t: datetime, now: datetime = None) -> int:
+def get_latency_seconds(from_time: datetime, now: datetime = None) -> int:
     """Method to compare a UTC datetime with current time for latency metrics."""
     if not now:
         now = datetime.utcnow()
 
-    latency = now - t
+    latency = now - from_time
     return latency.total_seconds()
 
 
 def login_to_vault_approle(vault_address, vault_role_id, vault_secret_id):
+    """Use Vault to authenticate using a specified Approle."""
     vault = hvac.Client(url=vault_address)
     vault.auth.approle.login(
         role_id=vault_role_id,
