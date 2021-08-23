@@ -10,7 +10,7 @@ from exceptions.collection_exceptions import (
 
 
 def get_valid_services():
-
+    """Return a list of valid services defined in config."""
     list_of_clsmembers = inspect.getmembers(config, inspect.isclass)
     list_of_clsmembers = [
         cls[0].replace("Config", "").lower() for cls in list_of_clsmembers
@@ -19,16 +19,17 @@ def get_valid_services():
     return list_of_clsmembers
 
 
-def get_service_cls(service, config):
+def get_service_cls(service, external_config):
     clsname = "{}{}".format(str(service).title(), "Config")
 
-    list_of_clsmembers = inspect.getmembers(config, inspect.isclass)
+    list_of_clsmembers = inspect.getmembers(external_config, inspect.isclass)
     cls_obj = next(cls[1] for cls in list_of_clsmembers if cls[0] == clsname)
 
     return cls_obj
 
 
 def is_valid_service_type(service):
+    """Check that service is of a type defined in the config."""
     list_of_valid_services = get_valid_services()
     return service in list_of_valid_services
 
