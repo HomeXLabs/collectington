@@ -21,7 +21,7 @@ def convert_list_of_key_value_pairs_to_dict(list_of_key_value_pairs):
     if not list_of_key_value_pairs:
         return {}
 
-    return dict([tuple(x.split("=")) for x in list_of_key_value_pairs])
+    return dict(x.split("=") for x in list_of_key_value_pairs)
 
 
 def get_credentials_from_secret_file(file_path):
