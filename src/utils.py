@@ -33,12 +33,12 @@ def get_iso_timestamp_x_min_ago(minutes):
     return timestamp.replace(microsecond=0).isoformat()
 
 
-def get_latency_seconds(t: datetime, now: datetime = None) -> int:
+def get_latency_seconds(from_time: datetime, now: datetime = None) -> int:
     """Method to compare a UTC datetime with current time for latency metrics."""
     if not now:
         now = datetime.utcnow()
 
-    latency = now - t
+    latency = now - from_time
     return latency.total_seconds()
 
 
