@@ -4,5 +4,5 @@ from src.callrail_api import *
 
 class ApiFactory:
     @classmethod
-    def get_api_factory(self, service):
+    def get_api_factory(cls, service):
         pass
