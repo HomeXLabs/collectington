@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 from abc import ABC
 
@@ -136,10 +136,9 @@ class AbstractApi(ABC):
         """
         response = requests.request("GET", url, params=params, headers=headers)
         response = response.json()
-        current_read_time = datetime.datetime.now()
 
         # this is required for invalidating cache after expiry
-        self.data_store["data_read_at"] = current_read_time
+        self.data_store["data_read_at"] = datetime.now()
 
         return response
 
@@ -147,11 +146,9 @@ class AbstractApi(ABC):
         """Check to see if data store has expired.
            Returns boolean.
         """
-
-        current_read_time = datetime.datetime.now()
         data_cached_time = self.data_store["data_read_at"]
 
-        time_delta = current_read_time - data_cached_time
+        time_delta = datetime.now() - data_cached_time
 
         return time_delta.total_seconds() >= self.data_store_expiration_sec
 
