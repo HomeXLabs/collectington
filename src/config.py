@@ -9,6 +9,7 @@ from src.logger import setup_logging
 
 DECODER = JSONDecoder()
 LOGGER = setup_logging()
+CONFIG_FILE_PATH = "./config/config.json"
 
 
 def parse(config):
@@ -34,7 +35,7 @@ def read_config(config_file_path):
 
 
 def get_service_config(service_name):
-    config = read_config("./config/config.json")
+    config = read_config(CONFIG_FILE_PATH)
 
     for i in range(len(config["services"])):
         if config["services"][i]["service_name"] == service_name:
@@ -65,10 +66,10 @@ def get_service(service_name):
 
 
 def get_api_call_intervals():
-    config = read_config("./config/config.json")
+    config = read_config(CONFIG_FILE_PATH)
     return config["api_call_intervals"]
 
 
 def get_port_config():
-    config = read_config("./config/config.json")
+    config = read_config(CONFIG_FILE_PATH)
     return config["port"]
