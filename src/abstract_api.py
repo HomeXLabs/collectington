@@ -172,7 +172,7 @@ class AbstractApi(ABC):
         ):
             labels = self.config.PROMETHEUS_METRIC_LABELS[api_metric]
             return p_method(api_metric, api_metric, labels)
-        
+
         return p_method(api_metric, api_metric)
 
     def generate_prometheus_metric_instances(self):
