@@ -1,4 +1,5 @@
-import datetime
+"""Module to define what an API class should do and what it should look like."""
+from datetime import datetime
 
 from abc import ABC
 
@@ -130,20 +131,25 @@ class AbstractApi(ABC):
         }
 
     def read_data(self, url, params, headers):
+        """Request data from API.
+           Update current read time.
+           Return API response.
+        """
         response = requests.request("GET", url, params=params, headers=headers)
         response = response.json()
-        current_read_time = datetime.datetime.now()
 
         # this is required for invalidating cache after expiry
-        self.data_store["data_read_at"] = current_read_time
+        self.data_store["data_read_at"] = datetime.now()
 
         return response
 
     def is_data_store_expired(self):
-        current_read_time = datetime.datetime.now()
+        """Check to see if data store has expired.
+           Returns boolean.
+        """
         data_cached_time = self.data_store["data_read_at"]
 
-        time_delta = current_read_time - data_cached_time
+        time_delta = datetime.now() - data_cached_time
 
         return time_delta.total_seconds() >= self.data_store_expiration_sec
 
@@ -167,10 +173,11 @@ class AbstractApi(ABC):
         ):
             labels = self.config.PROMETHEUS_METRIC_LABELS[api_metric]
             return p_method(api_metric, api_metric, labels)
-        else:
-            return p_method(api_metric, api_metric)
+
+        return p_method(api_metric, api_metric)
 
     def generate_prometheus_metric_instances(self):
+        """Create a list of metrics for service."""
         list_of_metric_instances = []
 
         for p_metric, api_metrics in self.config.PROMETHEUS_METRICS_MAPPING.items():

@@ -1,3 +1,4 @@
+"""A collaction of functions for validating services."""
 import inspect
 
 from functools import wraps
@@ -5,7 +6,6 @@ from functools import wraps
 from config import config
 from exceptions.collection_exceptions import (
     InvalidServiceTypeException,
-    InvalidMetricTypeException,
 )
 
 
