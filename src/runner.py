@@ -10,7 +10,6 @@ from prometheus_client import start_http_server
 from config import config #TODO remove this line when config conversion is complete
 from src.config import *
 from src.logger import setup_logging
-from src.api_factory import ApiFactory
 from src.validator import get_service_cls, validate_service
 
 
@@ -29,13 +28,6 @@ def process_request(service, metrics_list, metric_instances_list):
         service_metric_dict[metric] = metric_value
 
     service.call_prometheus_metrics(service_metric_dict, metric_instances_list)
-
-
-@validate_service()
-def get_service(service):
-    """Return API factory instance (soon to be deprecated)."""
-    api_factory = ApiFactory().get_api_factory(service)
-    return api_factory
 
 
 if __name__ == "__main__":
@@ -57,7 +49,7 @@ if __name__ == "__main__":
     logger.info("Setting up Service: %s", service_name)
     api_service = get_service(service_name)
 
-    list_of_metrics= get_list_of_available_metrics()
+    list_of_metrics= get_list_of_available_metrics(service_name)
 
     logger.info("Generating Prometheus Metric Instances")
     list_of_metric_instances = api_service.generate_prometheus_metric_instances()
