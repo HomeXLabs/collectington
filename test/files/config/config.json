@@ -1,0 +1,22 @@
+{
+    "port":8000,
+    "api_call_intervals":2,
+    "log_logging_level":"INFO",
+    "services":[
+       {
+          "serviceName":"splunk",
+          "serviceClass":"SplunkAPI",
+          "api_url":"https://api.victorops.com/api-reporting/v2/incidents",
+          "prometheus_metrics_mapping":{
+             "counter":[
+                "number_of_incidents"
+             ],
+             "summary":[
+                "time_taken_to_acknowledge",
+                "time_taken_to_resolve"
+             ]
+          },
+          "secret_file_path":"./splunk"
+       }
+    ]
+}
