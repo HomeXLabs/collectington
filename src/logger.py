@@ -1,7 +1,5 @@
 """Module that contains function to create a logger object."""
 import logging
-from config import config
-
 
 LOG_MSG_FORMAT = "%(asctime)s|%(name)-12s|%(levelname)-8s|%(message)s"
 LOG_DATE_FORMAT = "%Y/%m/%d|%H:%M:%S"

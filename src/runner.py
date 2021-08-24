@@ -7,10 +7,8 @@ from argparse import ArgumentParser
 
 from prometheus_client import start_http_server
 
-from config import config  # TODO remove this line when config conversion is complete
 from src.config import *
 from src.logger import setup_logging
-from src.validator import get_service_cls, validate_service
 
 
 def process_request(service, metrics_list, metric_instances_list):
