@@ -1,3 +1,4 @@
+"""Module to define what an API class should do and what it should look like."""
 from datetime import datetime
 
 from abc import ABC
