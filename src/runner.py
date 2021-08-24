@@ -7,7 +7,8 @@ from argparse import ArgumentParser
 
 from prometheus_client import start_http_server
 
-from config import config
+from config import config #TODO remove this line when config conversion is complete
+from src.config import *
 from src.logger import setup_logging
 from src.api_factory import ApiFactory
 from src.validator import get_service_cls, validate_service
@@ -56,7 +57,7 @@ if __name__ == "__main__":
     logger.info("Setting up Service: %s", service_name)
     api_service = get_service(service_name)
 
-    list_of_metrics = get_service_cls(service_name, config).AVAILABLE_METRICS
+    list_of_metrics= get_list_of_available_metrics()
 
     logger.info("Generating Prometheus Metric Instances")
     list_of_metric_instances = api_service.generate_prometheus_metric_instances()
