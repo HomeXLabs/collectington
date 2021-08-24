@@ -2,10 +2,10 @@
 import unittest
 
 from json.decoder import JSONDecodeError
-from src.config import parse
+from src.config import parse, is_valid
 
-class TestConfig(unittest.TestCase):
-    """Test that the config parsing module is operating as expected."""
+class TestConfigParse(unittest.TestCase):
+    """Test that the config parsing function is operating as expected."""
 
     def test_parse_valid_json(self):
         """Test that function parses json correctly."""
@@ -32,6 +32,16 @@ class TestConfig(unittest.TestCase):
 
         with self.assertRaises(TypeError):
             parse(test_input)
+
+class TestConfigValidateConfig(unittest.TestCase):
+    """Test that configs are validated correctly."""
+    def test_parse_valid_config(self):
+        with open("test/files/config/config.json") as f:
+            valid_config = f.read()
+
+        parsed_config = parse(valid_config)
+
+        self.assertTrue(is_valid(parsed_config))
 
 if __name__ == '__main__':
     unittest.main()
