@@ -9,7 +9,7 @@ def read_file_content_into_list(file_path):
     if file_path is None:
         return None
 
-    with open(file_path) as infile:
+    with open(file_path, encoding="UTF-8") as infile:
         list_of_content = [line.strip().replace('"', "") for line in infile]
 
     return list_of_content
