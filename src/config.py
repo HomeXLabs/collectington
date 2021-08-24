@@ -50,7 +50,6 @@ def get_list_of_available_metrics(service_name):
     Get all the available metrics from a config file
     and merge it into a single list.
     """
-
     try:
         metrics_mapping = get_service_config(service_name)["prometheus_metrics_mapping"]
         list_of_available_metrics = [v for k, v in metrics_mapping.items()]
