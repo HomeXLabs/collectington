@@ -13,21 +13,21 @@ from src.api_factory import ApiFactory
 from src.validator import get_service_cls, validate_service
 
 
-def process_request(api_service, list_of_metrics, list_of_metric_instances):
+def process_request(service, metrics_list, metric_instances_list):
     """Receive request for an API service
        Return formatted output of metrics.
     """
     service_metric_dict = {}
 
-    for metric in list_of_metrics:
-        metric_value = api_service.get_metric(metric)
+    for metric in metrics_list:
+        metric_value = service.get_metric(metric)
 
         if metric_value is None:
             metric_value = 0
 
         service_metric_dict[metric] = metric_value
 
-    api_service.call_prometheus_metrics(service_metric_dict, list_of_metric_instances)
+    service.call_prometheus_metrics(service_metric_dict, metric_instances_list)
 
 
 @validate_service()
