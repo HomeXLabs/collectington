@@ -17,7 +17,7 @@ def read_file_content_into_list(file_path):
 
 def convert_list_of_key_value_pairs_to_dict(list_of_key_value_pairs):
     """Receive a list of strings, containing unparsed key-value pairs.
-       Return a dictionary of parsed key-value pairs."""
+    Return a dictionary of parsed key-value pairs."""
     if not list_of_key_value_pairs:
         return {}
 

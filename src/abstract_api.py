@@ -132,8 +132,8 @@ class AbstractApi(ABC):
 
     def read_data(self, url, params, headers):
         """Request data from API.
-           Update current read time.
-           Return API response.
+        Update current read time.
+        Return API response.
         """
         response = requests.request("GET", url, params=params, headers=headers)
         response = response.json()
@@ -145,7 +145,7 @@ class AbstractApi(ABC):
 
     def is_data_store_expired(self):
         """Check to see if data store has expired.
-           Returns boolean.
+        Returns boolean.
         """
         data_cached_time = self.data_store["data_read_at"]
 
