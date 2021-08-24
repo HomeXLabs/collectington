@@ -54,10 +54,11 @@ def get_list_of_available_metrics(service_name):
         metrics_mapping = get_service_config(service_name)["prometheus_metrics_mapping"]
         list_of_available_metrics = [v for k, v in metrics_mapping.items()]
         list_of_available_metrics = list(itertools.chain(*list_of_available_metrics))
+
+        return list_of_available_metrics
     except Exception as err:
         LOGGER.error("No available metrics defined in config: %s", err)
 
-    return list_of_available_metrics
 
 
 def get_service(service_name):
@@ -65,12 +66,12 @@ def get_service(service_name):
     try:
         service = get_service_config(service_name)["service_class"]
         service_module = get_service_config(service_name)["service_module"]
-
         importlib.import_module(service_module)
+
+        return getattr(sys.modules[service_module], service)()
     except Exception as err:
         LOGGER.error("Failed to get service class instance: %s", err)
 
-    return getattr(sys.modules[service_module], service)()
 
 
 def get_api_call_intervals():
