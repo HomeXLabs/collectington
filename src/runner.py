@@ -17,7 +17,6 @@ def process_request(api_service, list_of_metrics, list_of_metric_instances):
     """Receive request for an API service
        Return formatted output of metrics.
     """
-    # TODO: multithread the calls
     service_metric_dict = {}
 
     for metric in list_of_metrics:
