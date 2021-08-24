@@ -1,7 +1,7 @@
 {
     "port":8000,
     "api_call_intervals":2,
-    "log_logging_level":"INFO",
+    "log_level":"INFO",
     "services":[
        {
           "serviceName":"splunk",
