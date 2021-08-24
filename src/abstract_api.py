@@ -172,10 +172,11 @@ class AbstractApi(ABC):
         ):
             labels = self.config.PROMETHEUS_METRIC_LABELS[api_metric]
             return p_method(api_metric, api_metric, labels)
-        else:
-            return p_method(api_metric, api_metric)
+        
+        return p_method(api_metric, api_metric)
 
     def generate_prometheus_metric_instances(self):
+        """Create a list of metrics for service."""
         list_of_metric_instances = []
 
         for p_metric, api_metrics in self.config.PROMETHEUS_METRICS_MAPPING.items():
