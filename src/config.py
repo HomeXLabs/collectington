@@ -2,15 +2,13 @@
 import sys
 import itertools
 
-from json.decoder import (
-        JSONDecoder,
-        JSONDecodeError
-        )
+from json.decoder import JSONDecoder, JSONDecodeError
 
 from src.logger import setup_logging
 
 DECODER = JSONDecoder()
 LOGGER = setup_logging()
+
 
 def parse(config):
     """Parse the string of a config file."""
@@ -34,7 +32,6 @@ def read_config(config_file_path):
     return parsed_config
 
 
-
 def get_list_of_available_metrics():
     """
     Get all the available metrics from a config file
@@ -43,7 +40,7 @@ def get_list_of_available_metrics():
     config = read_config("./config/config.json")
 
     metrics_mapping = config["services"][0]["prometheus_metrics_mapping"]
-    list_of_available_metrics = [v for k,v in metrics_mapping.items()]
+    list_of_available_metrics = [v for k, v in metrics_mapping.items()]
     list_of_available_metrics = list(itertools.chain(*list_of_available_metrics))
 
     return list_of_available_metrics
