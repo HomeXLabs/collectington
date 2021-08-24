@@ -62,3 +62,13 @@ def get_service(service_name):
     importlib.import_module(service_module)
 
     return getattr(sys.modules[service_module], service)()
+
+
+def get_api_call_intervals():
+    config = read_config("./config/config.json")
+    return config["api_call_intervals"]
+
+
+def get_port_config():
+    config = read_config("./config/config.json")
+    return config["port"]

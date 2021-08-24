@@ -54,13 +54,13 @@ if __name__ == "__main__":
     logger.info("Generating Prometheus Metric Instances")
     list_of_metric_instances = api_service.generate_prometheus_metric_instances()
 
-    logger.info("Setting up HTTP Server - PORT: %s", config.BaseConfig.PORT)
+    logger.info("Setting up HTTP Server - PORT: %s", get_port_config())
     start_http_server(int(config.BaseConfig.PORT))
 
     while True:
         try:
             process_request(api_service, list_of_metrics, list_of_metric_instances)
-            time.sleep(int(config.BaseConfig.API_CALL_INTERVALS))
+            time.sleep(int(get_api_call_intervals()))
         except Exception as e:
             traceback.print_exc()
             logger.error("Error has occurred: %s", e)
