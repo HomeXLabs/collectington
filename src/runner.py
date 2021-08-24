@@ -1,3 +1,4 @@
+"""File to run the API for a service."""
 import sys
 import time
 import traceback
@@ -13,6 +14,9 @@ from src.validator import get_service_cls, validate_service
 
 
 def process_request(api_service, list_of_metrics, list_of_metric_instances):
+    """Receive request for an API service
+       Return formatted output of metrics.
+    """
     # TODO: multithread the calls
     service_metric_dict = {}
 
@@ -29,6 +33,7 @@ def process_request(api_service, list_of_metrics, list_of_metric_instances):
 
 @validate_service()
 def get_service(service):
+    """Return API factory instance (soon to be deprecated)."""
     api_factory = ApiFactory().get_api_factory(service)
     return api_factory
 
@@ -49,7 +54,7 @@ if __name__ == "__main__":
 
     logger = setup_logging()
 
-    logger.info(f"Setting up Service: {service_name}")
+    logger.info("Setting up Service: %s", service_name)
     api_service = get_service(service_name)
 
     list_of_metrics = get_service_cls(service_name, config).AVAILABLE_METRICS
@@ -57,7 +62,7 @@ if __name__ == "__main__":
     logger.info("Generating Prometheus Metric Instances")
     list_of_metric_instances = api_service.generate_prometheus_metric_instances()
 
-    logger.info(f"Setting up HTTP Server - PORT: {config.BaseConfig.PORT}")
+    logger.info("Setting up HTTP Server - PORT: %s", config.BaseConfig.PORT)
     start_http_server(int(config.BaseConfig.PORT))
 
     while True:
@@ -66,5 +71,5 @@ if __name__ == "__main__":
             time.sleep(int(config.BaseConfig.API_CALL_INTERVALS))
         except Exception as e:
             traceback.print_exc()
-            logger.error(f"Error has occurred: {e}")
+            logger.error("Error has occurred: %s", e)
             sys.exit(1)
