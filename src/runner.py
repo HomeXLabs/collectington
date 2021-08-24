@@ -1,13 +1,10 @@
-import os
 import sys
 import time
-import json
 import traceback
 
 from argparse import ArgumentParser
 
-import requests
-from prometheus_client import start_http_server, Summary, Counter
+from prometheus_client import start_http_server
 
 from config import config
 from src.logger import setup_logging
