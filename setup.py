@@ -5,6 +5,7 @@ from distutils.core import setup
 setup(
     name="collectington",
     packages=setuptools.find_packages(),
+    install_requires=["prometheus-client", "termcolor", "pyfiglet", "requests", "hvac"],
     scripts=["cton"],
     license="MIT",
     version="1.0.0",
