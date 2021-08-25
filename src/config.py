@@ -7,7 +7,19 @@ DECODER = JSONDecoder()
 LOGGER = setup_logging()
 
 
-def parse_config(config):
+def get_config(path):
+    """Read config from a file, parse it, and validate it."""
+    with open(path, encoding="utf-8") as file:
+        contents = file.read()
+
+    config = parse(contents)
+
+    validate(config)  # ValueError will be raised if there is an issue with the config
+
+    return config
+
+
+def parse(config):
     """Parse the string of a config file."""
     try:
         output = DECODER.decode(config)
@@ -18,12 +30,10 @@ def parse_config(config):
         LOGGER.error("Failed to parse config file: %s", err)
         raise
 
-    validate_config(output)  # Error will be raised if there is an issue with the config
-
     return output
 
 
-def validate_config(config):
+def validate(config):
     """Test that provided json is a valid config."""
     if list(config.keys()) != [
         "port",
