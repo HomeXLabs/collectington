@@ -8,8 +8,8 @@ setup(
     install_requires=["prometheus-client", "termcolor", "pyfiglet", "requests"],
     scripts=["cton"],
     license="MIT",
-    version="1.0.0",
-    description="",  # change later
+    version="0.0.1",
+    description="Collectington is a framework that allows any 3rd party API data to be sent to Prometheus",
     author="HomeX",
     author_email="collectington@homex.com",
     url="https://github.com/HomeXLabs/collectington",
