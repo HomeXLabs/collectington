@@ -122,6 +122,7 @@ class AbstractApi(ABC):
         self.params = {}
         self.name_of_datastore = ""
         self.api_url = ""
+        self.service_name = ""
 
         self.prometheus_metrics_mapping = {
             "counter": Counter,
@@ -180,7 +181,7 @@ class AbstractApi(ABC):
         """Create a list of metrics for service."""
         list_of_metric_instances = []
 
-        for p_metric, api_metrics in self.config["prometheus_metrics_mapping"].items():
+        for p_metric, api_metrics in self.config["services"][self.service_name]["prometheus_metrics_mapping"].items():
             p_method = self.prometheus_metrics_mapping[p_metric]
 
             p_instances = [

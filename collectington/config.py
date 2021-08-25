@@ -8,8 +8,6 @@ from collectington.logger import setup_logging
 
 DECODER = JSONDecoder()
 LOGGER = setup_logging()
-CONFIG_FILE_PATH = "./config/config.json"
-
 
 def get_config(path):
     """Read config from a file, parse it, and validate it."""
