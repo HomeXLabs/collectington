@@ -2,7 +2,7 @@
 import unittest
 
 from json.decoder import JSONDecodeError
-from src.config import parse, is_valid
+from src.config import parse, validate
 
 class TestConfigParse(unittest.TestCase):
     """Test that the config parsing function is operating as expected."""
@@ -41,7 +41,10 @@ class TestConfigValidateConfig(unittest.TestCase):
 
         parsed_config = parse(valid_config)
 
-        self.assertTrue(is_valid(parsed_config))
+        try:
+            validate(parsed_config)
+        except ValueError as err:
+            self.fail(f"Exception raised:\n{err}")
 
 if __name__ == '__main__':
     unittest.main()
