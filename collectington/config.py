@@ -56,6 +56,8 @@ def get_service(config, service_name):
     service = config["services"][service_name]["service_class"]
     service_module = config["services"][service_name]["service_module"]
 
+    result = None
+
     try:
         importlib.import_module(service_module)
     except ModuleNotFoundError as err:
