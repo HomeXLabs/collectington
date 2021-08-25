@@ -135,26 +135,26 @@ def validate_services(services):
 def validate_service(service):
     """Test that a service contains a valid configuration."""
     expected_keys = [
-        "serviceName",
-        "serviceClass",
+        "service_name",
+        "service_class",
+        "service_module",
         "api_url",
         "prometheus_metrics_mapping",
-        "secret_file_path",
     ]
 
-    if list(service.keys()) != expected_keys:
+    if not all(key in service for key in expected_keys):
         raise ValueError(
             f"Invalid config: all services should contain '{', '.join(expected_keys)}'"
         )
 
-    strings = ["serviceName", "serviceClass", "api_url", "secret_file_path"]
+    strings = ["service_name", "service_class", "api_url", "secret_file_path"]
 
     for field in strings:
         if not isinstance(service[field], str):
             raise ValueError(f"Invalid config: {field} fields should be a string")
 
     validate_metrics_mapping(
-        service["serviceName"], service["prometheus_metrics_mapping"]
+        service["service_name"], service["prometheus_metrics_mapping"]
     )
 
 
