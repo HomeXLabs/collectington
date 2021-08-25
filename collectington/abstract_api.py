@@ -6,7 +6,7 @@ from abc import ABC
 import requests
 
 from prometheus_client import Summary, Counter, Gauge, Histogram
-from exceptions.collection_exceptions import UnsupportedPrometheusInstance
+from collectington.exceptions.collection_exceptions import UnsupportedPrometheusInstance
 
 
 def enable_delta_metric(func):

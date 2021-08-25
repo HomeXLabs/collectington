@@ -6,7 +6,7 @@
       {
          "service_name":"splunk",
          "service_class":"SplunkApi",
-         "service_module":"collectington.splunk_api",
+         "service_module":"splunk_api",
          "api_url":"https://api.victorops.com/api-reporting/v2/incidents",
          "prometheus_metrics_mapping":{
             "counter":[
