@@ -4,7 +4,7 @@ import importlib
 
 from json.decoder import JSONDecoder, JSONDecodeError
 
-from src.logger import setup_logging
+from collectington.logger import setup_logging
 
 DECODER = JSONDecoder()
 LOGGER = setup_logging()
