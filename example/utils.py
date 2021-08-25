@@ -2,7 +2,6 @@
 from datetime import datetime, timedelta
 
 
-
 def read_file_content_into_list(file_path):
     """Read lines from a file, and remove speech marks (")."""
     if file_path is None:
