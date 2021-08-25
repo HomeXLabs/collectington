@@ -1,11 +1,10 @@
 """Module for parsing and validating config files."""
 import sys
-import itertools
 import importlib
 
 from json.decoder import JSONDecoder, JSONDecodeError
 
-from src.logger import setup_logging
+from collectington.logger import setup_logging
 
 DECODER = JSONDecoder()
 LOGGER = setup_logging()
@@ -37,60 +36,39 @@ def parse(config):
     return output
 
 
-def read_config(config_file_path):
-    with open(config_file_path) as f:
-        config = f.read()
-
-        parsed_config = parse(config)
-    return parsed_config
-
-
-def get_service_config(service_name):
-    config = read_config(CONFIG_FILE_PATH)
-
-    try:
-        for i in range(len(config["services"])):
-            if config["services"][i]["service_name"] == service_name:
-                return config["services"][i]
-    except Exception as err:
-        LOGGER.error("Failed to load service config: %s", err)
-
-
-def get_list_of_available_metrics(service_name):
+def get_list_of_available_metrics(config, service_name):
     """
     Get all the available metrics from a config file
     and merge it into a single list.
     """
-    try:
-        metrics_mapping = get_service_config(service_name)["prometheus_metrics_mapping"]
-        list_of_available_metrics = [v for k, v in metrics_mapping.items()]
-        list_of_available_metrics = list(itertools.chain(*list_of_available_metrics))
+    metrics_mapping = config["services"][service_name][
+        "prometheus_metrics_mapping"
+    ].values()
+    list_of_available_metrics = [
+        item for sublist in metrics_mapping for item in sublist
+    ]
 
-        return list_of_available_metrics
-    except Exception as err:
-        LOGGER.error("No available metrics defined in config: %s", err)
+    return list_of_available_metrics
 
 
-def get_service(service_name):
+def get_service(config, service_name):
     """Get service class instance using config"""
-    try:
-        service = get_service_config(service_name)["service_class"]
-        service_module = get_service_config(service_name)["service_module"]
-        importlib.import_module(service_module)
+    service = config["services"][service_name]["service_class"]
+    service_module = config["services"][service_name]["service_module"]
 
-        return getattr(sys.modules[service_module], service)()
-    except Exception as err:
+    result = None
+
+    try:
+        importlib.import_module(service_module)
+    except ModuleNotFoundError as err:
+        LOGGER.error("Failed to get module: %s", err)
+
+    try:
+        result = getattr(sys.modules[service_module], service)()
+    except KeyError as err:
         LOGGER.error("Failed to get service class instance: %s", err)
 
-
-def get_api_call_intervals():
-    config = read_config(CONFIG_FILE_PATH)
-    return config["api_call_intervals"]
-
-
-def get_port_config():
-    config = read_config(CONFIG_FILE_PATH)
-    return config["port"]
+    return result
 
 
 def validate(config):
@@ -117,8 +95,8 @@ def validate(config):
             f"Invalid config log_lebel must be one of {', '.join(valid_log_levels)}"
         )
 
-    if not isinstance(config["services"], list):
-        raise ValueError("Invalid config: services must be a list of services")
+    if not isinstance(config["services"], dict):
+        raise ValueError("Invalid config: services must be a dict of services")
 
     if len(config["services"]) == 0:
         raise ValueError("Invalid config: must contain at least one service")
@@ -128,34 +106,31 @@ def validate(config):
 
 def validate_services(services):
     """Test that each service in the config is a valid service configuration."""
-    for service in services:
-        validate_service(service)
+    for service_name in services:
+        validate_service(service_name, services[service_name])
 
 
-def validate_service(service):
+def validate_service(service_name, service):
     """Test that a service contains a valid configuration."""
     expected_keys = [
-        "serviceName",
-        "serviceClass",
+        "service_class",
+        "service_module",
         "api_url",
         "prometheus_metrics_mapping",
-        "secret_file_path",
     ]
 
-    if list(service.keys()) != expected_keys:
+    if not all(key in service for key in expected_keys):
         raise ValueError(
             f"Invalid config: all services should contain '{', '.join(expected_keys)}'"
         )
 
-    strings = ["serviceName", "serviceClass", "api_url", "secret_file_path"]
+    strings = ["service_class", "api_url", "secret_file_path"]
 
     for field in strings:
         if not isinstance(service[field], str):
             raise ValueError(f"Invalid config: {field} fields should be a string")
 
-    validate_metrics_mapping(
-        service["serviceName"], service["prometheus_metrics_mapping"]
-    )
+    validate_metrics_mapping(service_name, service["prometheus_metrics_mapping"])
 
 
 def validate_metrics_mapping(service_name, metrics_mapping):
@@ -170,13 +145,13 @@ def validate_metrics_mapping(service_name, metrics_mapping):
     if len(set(metrics_mapping)) != len(metrics_mapping):
         raise ValueError(
             f"Invalid config: {service_name} prometheus_metrics_mapping\
-should contain only one of each metric type"
+                        should contain only one of each metric type"
         )
 
     if not all(metric_type in valid_metric_types for metric_type in metrics_mapping):
         raise ValueError(
             f"Invalid config: {service_name} prometheus_metrics_mapping\
-can only be one of {', '.join(valid_metric_types)}"
+                        can only be one of {', '.join(valid_metric_types)}"
         )
 
     metrics = []

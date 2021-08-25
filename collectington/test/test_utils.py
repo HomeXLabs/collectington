@@ -4,7 +4,7 @@ import unittest
 
 import hvac
 
-from src.utils import get_latency_seconds, read_file_content_into_list, read_secret
+from collectington.utils import get_latency_seconds, read_file_content_into_list, read_secret
 from test import MOCK_DATA_DIR
 
 
