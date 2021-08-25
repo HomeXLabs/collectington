@@ -7,7 +7,11 @@ from argparse import ArgumentParser
 
 from prometheus_client import start_http_server
 
-from src.config import *
+from src.config import (
+        get_config,
+        get_service,
+        get_list_of_available_metrics
+        )
 from src.logger import setup_logging
 
 
@@ -44,21 +48,26 @@ if __name__ == "__main__":
 
     logger = setup_logging()
 
-    logger.info("Setting up Service: %s", service_name)
-    api_service = get_service(service_name)
+    config_path = "config/config.json"
+    logger.info("Reading config from %s", config_path)
 
-    list_of_metrics = get_list_of_available_metrics(service_name)
+    config = get_config(config_path)
+
+    logger.info("Setting up Service: %s", service_name)
+    api_service = get_service(config, service_name)
+
+    list_of_metrics = get_list_of_available_metrics(config, service_name)
 
     logger.info("Generating Prometheus Metric Instances")
     list_of_metric_instances = api_service.generate_prometheus_metric_instances()
 
-    logger.info("Setting up HTTP Server - PORT: %s", get_port_config())
-    start_http_server(int(get_port_config()))
+    logger.info("Setting up HTTP Server - PORT: %s", config["port"])
+    start_http_server(config["port"])
 
     while True:
         try:
             process_request(api_service, list_of_metrics, list_of_metric_instances)
-            time.sleep(int(get_api_call_intervals()))
+            time.sleep(config["api_call_intervals"])
         except Exception as e:
             traceback.print_exc()
             logger.error("Error has occurred: %s", e)
