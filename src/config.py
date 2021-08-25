@@ -71,7 +71,6 @@ def get_list_of_available_metrics(service_name):
         LOGGER.error("No available metrics defined in config: %s", err)
 
 
-
 def get_service(service_name):
     """Get service class instance using config"""
     try:
@@ -84,7 +83,6 @@ def get_service(service_name):
         LOGGER.error("Failed to get service class instance: %s", err)
 
 
-
 def get_api_call_intervals():
     config = read_config(CONFIG_FILE_PATH)
     return config["api_call_intervals"]
@@ -93,6 +91,8 @@ def get_api_call_intervals():
 def get_port_config():
     config = read_config(CONFIG_FILE_PATH)
     return config["port"]
+
+
 def validate(config):
     """Test that provided json is a valid config."""
     if list(config.keys()) != [
