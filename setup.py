@@ -5,6 +5,7 @@ from distutils.core import setup
 setup(
     name="collectington",
     packages=setuptools.find_packages(),
+    scripts=["cton"],
     license="MIT",
     version="1.0.0",
     description="",  # change later
@@ -12,6 +13,7 @@ setup(
     author_email="collectington@homex.com",
     url="https://github.com/HomeXLabs/collectington",
     download_url="https://github.com/HomeXLabs/collectington",
+    package_dir={"collectington": "collectington"},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
