@@ -2,9 +2,8 @@
    "port" : 8000,
    "api_call_intervals" : 2,
    "log_level" : "INFO",
-   "services" : [
-      {
-         "service_name" : "splunk",
+   "services" : {
+      "splunk" : {
          "service_class" : "SplunkApi",
          "service_module" : "src.splunk_api",
          "api_url" : "https://api.victorops.com/api-reporting/v2/incidents",
@@ -21,5 +20,5 @@
          "api_key" : "",
          "api_id" : ""
       }
-   ]
+   }
 }
