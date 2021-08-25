@@ -7,8 +7,8 @@ from argparse import ArgumentParser
 
 from prometheus_client import start_http_server
 
-from src.config import *
-from src.logger import setup_logging
+from collectington.config import *
+from collectington.logger import setup_logging
 
 
 def process_request(service, metrics_list, metric_instances_list):

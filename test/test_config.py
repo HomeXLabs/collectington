@@ -2,7 +2,7 @@
 import unittest
 
 from json.decoder import JSONDecodeError
-from src.config import parse, is_valid
+from collectington.config import parse, is_valid
 
 class TestConfigParse(unittest.TestCase):
     """Test that the config parsing function is operating as expected."""
