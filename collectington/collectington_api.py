@@ -99,7 +99,7 @@ def register_metric(*args):
     return wrapper
 
 
-class AbstractApi(ABC):
+class CollectingtonApi(ABC):
     """
     This class is an abstract class that includes implementations for common methods
     and forces its subclasses to implement abstract methods.
