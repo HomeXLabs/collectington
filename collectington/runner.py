@@ -43,12 +43,20 @@ if __name__ == "__main__":
         help="Provide the name of a service to be monitored",
     )
 
+    parser.add_argument(
+        "-c",
+        "--config",
+        type=str,
+        required=True,
+        help="Provide the path of your configuration file.",
+    )
+
     args = vars(parser.parse_args())
     service_name = args["service"]
+    config_path = args["config"]
 
     logger = setup_logging()
 
-    config_path = "config/config.json"
     logger.info("Reading config from %s", config_path)
 
     config = get_config(config_path)
