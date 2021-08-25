@@ -17,11 +17,9 @@
                "time_taken_to_resolve"
             ]
          },
-         "additional_config":{
-            "secret_file_path":"./splunk",
-            "api_key":"",
-            "api_id":""
-         }
+         "secret_file_path":"./splunk",
+         "api_key":"",
+         "api_id":""
       }
    ]
 }
