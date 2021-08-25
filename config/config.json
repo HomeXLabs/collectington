@@ -1,27 +1,24 @@
 {
-   "port":8000,
-   "api_call_intervals":2,
-   "logging_level":"INFO",
-   "services":[
-      {
-         "service_name":"splunk",
-         "service_class":"SplunkApi",
-         "service_module":"splunk_api",
-         "api_url":"https://api.victorops.com/api-reporting/v2/incidents",
-         "prometheus_metrics_mapping":{
-            "counter":[
+   "port" : 8000,
+   "api_call_intervals" : 2,
+   "log_level" : "INFO",
+   "services" : {
+      "splunk" : {
+         "service_class" : "SplunkApi",
+         "service_module" : "splunk_api",
+         "api_url" : "https://api.victorops.com/api-reporting/v2/incidents",
+         "prometheus_metrics_mapping" : {
+            "counter" : [
                "number_of_incidents"
             ],
-            "summary":[
+            "summary" : [
                "time_taken_to_acknowledge",
                "time_taken_to_resolve"
             ]
          },
-         "additional_config":{
-            "secret_file_path":"./splunk",
-            "api_key":"",
-            "api_id":""
-         }
+         "secret_file_path" : "./splunk",
+         "api_key" : "",
+         "api_id" : ""
       }
-   ]
+   }
 }

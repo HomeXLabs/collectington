@@ -2,7 +2,7 @@
 import unittest
 
 from json.decoder import JSONDecodeError
-from collectington.config import parse, is_valid
+from collectington.config import parse, validate
 
 class TestConfigParse(unittest.TestCase):
     """Test that the config parsing function is operating as expected."""
@@ -36,12 +36,15 @@ class TestConfigParse(unittest.TestCase):
 class TestConfigValidateConfig(unittest.TestCase):
     """Test that configs are validated correctly."""
     def test_parse_valid_config(self):
-        with open("test/files/config/config.json") as f:
+        with open("collectington/test/files/config/config.json") as f:
             valid_config = f.read()
 
         parsed_config = parse(valid_config)
 
-        self.assertTrue(is_valid(parsed_config))
+        try:
+            validate(parsed_config)
+        except ValueError as err:
+            self.fail(f"Exception raised:\n{err}")
 
 if __name__ == '__main__':
     unittest.main()
