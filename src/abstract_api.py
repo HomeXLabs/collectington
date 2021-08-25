@@ -132,8 +132,8 @@ class AbstractApi(ABC):
 
     def read_data(self, url, params, headers):
         """Request data from API.
-           Update current read time.
-           Return API response.
+        Update current read time.
+        Return API response.
         """
         response = requests.request("GET", url, params=params, headers=headers)
         response = response.json()
@@ -145,7 +145,7 @@ class AbstractApi(ABC):
 
     def is_data_store_expired(self):
         """Check to see if data store has expired.
-           Returns boolean.
+        Returns boolean.
         """
         data_cached_time = self.data_store["data_read_at"]
 
@@ -168,10 +168,10 @@ class AbstractApi(ABC):
     def _init_p_method(self, p_method, api_metric):
         """Internal method to metric methods with labels only if they're provided."""
         if (
-            hasattr(self.config, "PROMETHEUS_METRIC_LABELS")
-            and api_metric in self.config.PROMETHEUS_METRIC_LABELS
+            self.config.get("prometheus_metric_labels") is not None
+            and api_metric in self.config["prometheus_metric_labels"]
         ):
-            labels = self.config.PROMETHEUS_METRIC_LABELS[api_metric]
+            labels = self.config["prometheus_metric_labels"][api_metric]
             return p_method(api_metric, api_metric, labels)
 
         return p_method(api_metric, api_metric)
@@ -180,7 +180,7 @@ class AbstractApi(ABC):
         """Create a list of metrics for service."""
         list_of_metric_instances = []
 
-        for p_metric, api_metrics in self.config.PROMETHEUS_METRICS_MAPPING.items():
+        for p_metric, api_metrics in self.config["prometheus_metrics_mapping"].items():
             p_method = self.prometheus_metrics_mapping[p_metric]
 
             p_instances = [
@@ -201,12 +201,13 @@ class AbstractApi(ABC):
         """
         for p_instance in list_of_metric_instances:
             metric = str(p_instance).split(":")[1]
+
             if (
-                hasattr(self.config, "PROMETHEUS_METRIC_LABELS")
-                and metric in self.config.PROMETHEUS_METRIC_LABELS
+                self.config.get("prometheus_metric_labels") is not None
+                and metric in self.config["prometheus_metric_labels"]
             ):
                 for labels_and_metric_object in service_metric_dict[metric]:
-                    label_list = self.config.PROMETHEUS_METRIC_LABELS[metric]
+                    label_list = self.config["prometheus_metric_labels"][metric]
                     labels, val = self._split_labeled_metric_dict(
                         labels_and_metric_object, label_list
                     )
