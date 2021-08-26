@@ -22,6 +22,6 @@ if [ -z "$service" ] || [ -z "$config" ]; then
    echo "Please provide correcrt paramaters!";
    helpFunction
 else
-    python3 -m collectington.runner -s $service -c $config
+    python3 -m collectington.runner -s "$service" -c "$config"
 
 fi

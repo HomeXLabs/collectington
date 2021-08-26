@@ -1,5 +1,6 @@
 """A module to define exceptions that could occur during web scraping."""
 
+
 class InvalidServiceTypeException(Exception):
     """Service type is not considered valid."""
 

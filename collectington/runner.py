@@ -7,11 +7,7 @@ from argparse import ArgumentParser
 
 from prometheus_client import start_http_server
 
-from collectington.config import (
-        get_config,
-        get_service,
-        get_list_of_available_metrics
-        )
+from collectington.config import get_config, get_service, get_list_of_available_metrics
 from collectington.logger import setup_logging
 from collectington.ascii_art import print_ascii
 
@@ -33,7 +29,8 @@ def process_request(service, metrics_list, metric_instances_list):
     service.call_prometheus_metrics(service_metric_dict, metric_instances_list)
 
 
-if __name__ == "__main__":
+def parse_args():
+    """Parse functions passed to program."""
     parser = ArgumentParser(description="Add a service for Prometheus to monitor.")
 
     parser.add_argument(
@@ -53,8 +50,24 @@ if __name__ == "__main__":
     )
 
     args = vars(parser.parse_args())
-    service_name = args["service"]
-    config_path = args["config"]
+
+    return (args["service"], args["config"])
+
+
+def run(service, metrics_list, metric_instances_list):
+    """Try to process an API request."""
+    try:
+        process_request(service, metrics_list, metric_instances_list)
+        time.sleep(config["api_call_intervals"])
+    except Exception as err:
+        traceback.print_exc()
+        logger.error("Error has occurred: %s", err)
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+
+    service_name, config_path = parse_args()
 
     print_ascii()
 
@@ -76,10 +89,4 @@ if __name__ == "__main__":
     start_http_server(config["port"])
 
     while True:
-        try:
-            process_request(api_service, list_of_metrics, list_of_metric_instances)
-            time.sleep(config["api_call_intervals"])
-        except Exception as e:
-            traceback.print_exc()
-            logger.error("Error has occurred: %s", e)
-            sys.exit(1)
+        run(api_service, list_of_metrics, list_of_metric_instances)

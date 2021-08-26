@@ -9,6 +9,7 @@ from collectington.logger import setup_logging
 DECODER = JSONDecoder()
 LOGGER = setup_logging()
 
+
 def get_config(path):
     """Read config from a file, parse it, and validate it."""
     with open(path, encoding="utf-8") as file:
@@ -61,11 +62,13 @@ def get_service(config, service_name):
         importlib.import_module(service_module)
     except ModuleNotFoundError as err:
         LOGGER.error("Failed to get module: %s", err)
+        raise
 
     try:
         result = getattr(sys.modules[service_module], service)()
     except KeyError as err:
         LOGGER.error("Failed to get service class instance: %s", err)
+        raise
 
     return result
 
