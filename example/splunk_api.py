@@ -12,6 +12,7 @@ from collectington.collectington_api import (
     register_metric,
 )
 
+
 @register_metric_class
 class SplunkApi(CollectingtonApi):
     """
