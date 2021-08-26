@@ -28,6 +28,7 @@ def process_request(service, metrics_list, metric_instances_list):
 
     service.call_prometheus_metrics(service_metric_dict, metric_instances_list)
 
+
 def parse_args():
     """Parse functions passed to program."""
     parser = ArgumentParser(description="Add a service for Prometheus to monitor.")
@@ -49,7 +50,7 @@ def parse_args():
     )
 
     args = vars(parser.parse_args())
-   
+
     return (args["service"], args["config"])
 
 
@@ -58,9 +59,9 @@ def run(service, metrics_list, metric_instances_list):
     try:
         process_request(service, metrics_list, metric_instances_list)
         time.sleep(config["api_call_intervals"])
-    except Exception as e:
+    except Exception as err:
         traceback.print_exc()
-        logger.error("Error has occurred: %s", e)
+        logger.error("Error has occurred: %s", err)
         sys.exit(1)
 
 
