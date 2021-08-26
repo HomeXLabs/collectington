@@ -11,7 +11,7 @@
 
 - Once the service is running, the service will make an API call every 60 sec to read data (metrics) from 3rd party services. The read data must be translated based on the logic you provide so `Prometheus` is able to monitor.
 
-- `Collectington` is uses [`Prometheus-Client`](https://github.com/prometheus/client_python#three-step-demo) and we have automated a lot of steps that require writing many lines of code. `Collectington` removes the process of:
+- `Collectington` uses [`Prometheus-Client`](https://github.com/prometheus/client_python#three-step-demo) and we have automated a lot of steps that require writing many lines of code. `Collectington` removes the process of:
     - Having to define logic for calling APIs
     - Instantiating prometheus client class many times
     - Mapping prometheus metric to each function using the client
