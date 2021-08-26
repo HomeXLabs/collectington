@@ -36,8 +36,9 @@ class TestConfigValidateConfig(unittest.TestCase):
     """Test that configs are validated correctly."""
 
     def test_parse_valid_config(self):
-        with open("collectington/test/files/config/config.json") as f:
-            valid_config = f.read()
+        """Test that a valid config will not raise any exceptions."""
+        with open("collectington/test/files/config/config.json", encoding="utf-8") as file:
+            valid_config = file.read()
 
         parsed_config = parse(valid_config)
 
