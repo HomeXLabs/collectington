@@ -28,8 +28,8 @@ def process_request(service, metrics_list, metric_instances_list):
 
     service.call_prometheus_metrics(service_metric_dict, metric_instances_list)
 
-
-if __name__ == "__main__":
+def parse_args():
+    """Parse functions passed to program."""
     parser = ArgumentParser(description="Add a service for Prometheus to monitor.")
 
     parser.add_argument(
@@ -49,8 +49,13 @@ if __name__ == "__main__":
     )
 
     args = vars(parser.parse_args())
-    service_name = args["service"]
-    config_path = args["config"]
+   
+    return (args["service"], args["config"])
+
+
+if __name__ == "__main__":
+
+    service_name, config_path = parse_args()
 
     print_ascii()
 
