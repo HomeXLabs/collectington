@@ -53,6 +53,17 @@ def parse_args():
     return (args["service"], args["config"])
 
 
+def run(service, metrics_list, metric_instances_list):
+    """Try to process an API request."""
+    try:
+        process_request(service, metrics_list, metric_instances_list)
+        time.sleep(config["api_call_intervals"])
+    except Exception as e:
+        traceback.print_exc()
+        logger.error("Error has occurred: %s", e)
+        sys.exit(1)
+
+
 if __name__ == "__main__":
 
     service_name, config_path = parse_args()
@@ -77,10 +88,4 @@ if __name__ == "__main__":
     start_http_server(config["port"])
 
     while True:
-        try:
-            process_request(api_service, list_of_metrics, list_of_metric_instances)
-            time.sleep(config["api_call_intervals"])
-        except Exception as e:
-            traceback.print_exc()
-            logger.error("Error has occurred: %s", e)
-            sys.exit(1)
+        run(api_service, list_of_metrics, list_of_metric_instances)
