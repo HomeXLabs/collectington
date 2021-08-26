@@ -7,11 +7,7 @@ from argparse import ArgumentParser
 
 from prometheus_client import start_http_server
 
-from collectington.config import (
-        get_config,
-        get_service,
-        get_list_of_available_metrics
-        )
+from collectington.config import get_config, get_service, get_list_of_available_metrics
 from collectington.logger import setup_logging
 from collectington.ascii_art import print_ascii
 
