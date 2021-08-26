@@ -9,7 +9,6 @@ from collectington.logger import setup_logging
 DECODER = JSONDecoder()
 LOGGER = setup_logging()
 
-
 def get_config(path):
     """Read config from a file, parse it, and validate it."""
     with open(path, encoding="utf-8") as file:

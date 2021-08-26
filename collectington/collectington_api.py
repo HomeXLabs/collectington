@@ -6,7 +6,7 @@ from abc import ABC
 import requests
 
 from prometheus_client import Summary, Counter, Gauge, Histogram
-from exceptions.collection_exceptions import UnsupportedPrometheusInstance
+from collectington.exceptions.collection_exceptions import UnsupportedPrometheusInstance
 
 
 def enable_delta_metric(func):
@@ -99,7 +99,7 @@ def register_metric(*args):
     return wrapper
 
 
-class AbstractApi(ABC):
+class CollectingtonApi(ABC):
     """
     This class is an abstract class that includes implementations for common methods
     and forces its subclasses to implement abstract methods.
@@ -122,6 +122,7 @@ class AbstractApi(ABC):
         self.params = {}
         self.name_of_datastore = ""
         self.api_url = ""
+        self.service_name = ""
 
         self.prometheus_metrics_mapping = {
             "counter": Counter,
@@ -180,7 +181,7 @@ class AbstractApi(ABC):
         """Create a list of metrics for service."""
         list_of_metric_instances = []
 
-        for p_metric, api_metrics in self.config["prometheus_metrics_mapping"].items():
+        for p_metric, api_metrics in self.config["services"][self.service_name]["prometheus_metrics_mapping"].items():
             p_method = self.prometheus_metrics_mapping[p_metric]
 
             p_instances = [

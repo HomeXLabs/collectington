@@ -1,0 +1,27 @@
+#!/bin/bash
+
+helpFunction()
+{
+   echo ""
+   echo "Usage: $0 -s service -c config"
+   echo -e "\t-s Provide the name of a service to be monitored"
+   echo -e "\t-c Provide the path of your configuration file"
+   exit 1
+}
+
+while getopts "s:c:" opt
+do
+   case "$opt" in
+      s ) service="$OPTARG" ;;
+      c ) config="$OPTARG" ;;
+      ? ) helpFunction ;;
+   esac
+done
+
+if [ -z "$service" ] || [ -z "$config" ]; then
+   echo "Please provide correcrt paramaters!";
+   helpFunction
+else
+    python3 -m collectington.runner -s $service -c $config
+
+fi

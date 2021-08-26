@@ -13,6 +13,7 @@ from collectington.config import (
         get_list_of_available_metrics
         )
 from collectington.logger import setup_logging
+from collectington.ascii_art import print_ascii
 
 
 def process_request(service, metrics_list, metric_instances_list):
@@ -43,12 +44,22 @@ if __name__ == "__main__":
         help="Provide the name of a service to be monitored",
     )
 
+    parser.add_argument(
+        "-c",
+        "--config",
+        type=str,
+        required=True,
+        help="Provide the path of your configuration file",
+    )
+
     args = vars(parser.parse_args())
     service_name = args["service"]
+    config_path = args["config"]
+
+    print_ascii()
 
     logger = setup_logging()
 
-    config_path = "config/config.json"
     logger.info("Reading config from %s", config_path)
 
     config = get_config(config_path)
