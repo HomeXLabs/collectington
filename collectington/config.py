@@ -62,11 +62,13 @@ def get_service(config, service_name):
         importlib.import_module(service_module)
     except ModuleNotFoundError as err:
         LOGGER.error("Failed to get module: %s", err)
+        raise
 
     try:
         result = getattr(sys.modules[service_module], service)()
     except KeyError as err:
         LOGGER.error("Failed to get service class instance: %s", err)
+        raise
 
     return result
 
