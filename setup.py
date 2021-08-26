@@ -13,7 +13,7 @@ setup(
     install_requires=["prometheus-client", "termcolor", "pyfiglet", "requests"],
     scripts=["cton"],
     license="MIT",
-    version="0.0.1",
+    version="0.1.1",
     description="Collectington is a framework that allows any 3rd party API data to be sent to Prometheus",
     long_description=long_description,
     long_description_content_type='text/markdown',
