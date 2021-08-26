@@ -326,7 +326,7 @@
 
     ```
 
-## Development
+## Development & Contribution
 
 Since this is an open source project, anyone is welcome to contribute towards `Collectington`
 
@@ -334,9 +334,13 @@ To do development work on this project make sure you follow these steps.
 
 1. Have your local `virtualenv` setup and add tests for each service.
 
-1. Since we want to ensure that new features are runnable from doing `pip install collectington`, it is recommended that you create a library locally to test installation and run the service.
+1. Since we want to ensure that new features are runnable from running below,
 
-1. You can run the below command to build a whl file
+    `pip install collectington`
+
+    it is recommended that you create a local library to test installation and run the service.
+
+1. You can run the below command to build a `whl` file
 
     `python setup.py sdist bdist_wheel`
 
