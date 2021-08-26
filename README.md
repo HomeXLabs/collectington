@@ -152,7 +152,7 @@
         ```
 
     - `self.config` (required): you have to provide your config path by using the `get_config` function
-    - `self.service_name` (required): you have to provide your service name that matches the service name in the [config file] (https://github.com/HomeXLabs/collectington/blob/a68e7337a0f843a73763cb934d18d19a13937a47/example/config.json#L6)
+    - `self.service_name` (required): you have to provide your service name that matches the service name in the [config file](https://github.com/HomeXLabs/collectington/blob/a68e7337a0f843a73763cb934d18d19a13937a47/example/config.json#L6)
     - `self.headers` (optional): this is required if you need to send `header` information. `Collectington` uses the `requests` library so it works the same way.
     - `self.params` (optional): this is required if you need to add `params` to your API URL. If you need custom params for each metric method. You can simply override it from a method.
     - `self.name_of_datastore` (required): this is required as this will ensure that your API is cached and not making unnecessary calls for every metric
