@@ -51,6 +51,25 @@ def get_list_of_available_metrics(config, service_name):
     return list_of_available_metrics
 
 
+def get_services(config):
+    """
+    Return a dictionary of all services defined in a config.
+
+    Each service is also a dictionary, with its key being the service name
+    and the values being the restult of `get_service` and the list of
+    available metrics.
+    """
+    services = {}
+
+    for service_name in config["services"]:
+        services[service_name] = {
+            "api_service": get_service(config, service_name),
+            "list_of_metrics": get_list_of_available_metrics(config, service_name),
+        }
+
+    return services
+
+
 def get_service(config, service_name):
     """Get service class instance using config"""
     service = config["services"][service_name]["service_class"]
