@@ -122,7 +122,7 @@ def validate_service(service_name, service):
             f"Invalid config: all services should contain '{', '.join(expected_keys)}'"
         )
 
-    strings = ["service_class", "api_url", "secret_file_path"]
+    strings = ["service_class", "api_url"]
 
     for field in strings:
         if not isinstance(service[field], str):
