@@ -76,7 +76,6 @@ def get_service(config, service_name):
 def validate(config):
     """Test that provided json is a valid config."""
     if list(config.keys()) != [
-        "port",
         "api_call_intervals",
         "log_level",
         "services",
@@ -84,9 +83,6 @@ def validate(config):
         raise ValueError(
             "Invalid config: config should contain port, api_call_intervals, log_level, services"
         )
-
-    if not isinstance(config["port"], int):
-        raise ValueError("Invalid config: port should be an integer")
 
     if not isinstance(config["api_call_intervals"], int):
         raise ValueError("Invalid config: api_call_intervals should be an integer")
