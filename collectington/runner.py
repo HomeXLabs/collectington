@@ -7,7 +7,7 @@ from argparse import ArgumentParser
 
 from prometheus_client import start_http_server
 
-from collectington.config import get_config, get_service, get_list_of_available_metrics
+from collectington.config import get_config, get_services
 from collectington.logger import setup_logging
 from collectington.ascii_art import print_ascii
 
@@ -77,16 +77,20 @@ if __name__ == "__main__":
 
     config = get_config(config_path)
 
-    logger.info("Setting up Service: %s", service_name)
-    api_service = get_service(config, service_name)
+    logger.info("Setting up Services")
+    services = get_services(config)
 
-    list_of_metrics = get_list_of_available_metrics(config, service_name)
+    logger.info("Services retrieved: %s", ", ".join(services))
 
-    logger.info("Generating Prometheus Metric Instances")
-    list_of_metric_instances = api_service.generate_prometheus_metric_instances()
+    for s_name, service in services.items():
+        logger.info("Generating Prometheus Metric Instances for %s", service)
+        service["list_of_metric_instances"] = service[
+            "api_service"
+        ].generate_prometheus_metric_instances()
 
     logger.info("Setting up HTTP Server - PORT: %s", config["port"])
     start_http_server(config["port"])
 
     while True:
+        # TODO: replace arguments with dict reference for service defined above
         run(api_service, list_of_metrics, list_of_metric_instances)
