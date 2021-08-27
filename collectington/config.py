@@ -133,7 +133,7 @@ def validate_service(service_name, service):
 
 def validate_metrics_mapping(service_name, metrics_mapping):
     """Test that the metrics mapping of a service is valid."""
-    valid_metric_types = ["counter", "summary"]
+    valid_metric_types = ["counter", "summary", "histogram", "gauge"]
 
     if not isinstance(metrics_mapping, dict):
         raise ValueError(
