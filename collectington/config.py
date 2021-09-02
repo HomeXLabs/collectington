@@ -76,7 +76,6 @@ def get_service(config, service_name):
 def validate(config):
     """Test that provided json is a valid config."""
     if list(config.keys()) != [
-        "port",
         "api_call_intervals",
         "log_level",
         "services",
@@ -84,9 +83,6 @@ def validate(config):
         raise ValueError(
             "Invalid config: config should contain port, api_call_intervals, log_level, services"
         )
-
-    if not isinstance(config["port"], int):
-        raise ValueError("Invalid config: port should be an integer")
 
     if not isinstance(config["api_call_intervals"], int):
         raise ValueError("Invalid config: api_call_intervals should be an integer")
@@ -126,18 +122,21 @@ def validate_service(service_name, service):
             f"Invalid config: all services should contain '{', '.join(expected_keys)}'"
         )
 
-    strings = ["service_class", "api_url", "secret_file_path"]
+    strings = ["service_class", "api_url"]
 
     for field in strings:
         if not isinstance(service[field], str):
             raise ValueError(f"Invalid config: {field} fields should be a string")
+
+    if not isinstance(service["port"], int):
+        raise ValueError("Invalid config: port should be an integer")
 
     validate_metrics_mapping(service_name, service["prometheus_metrics_mapping"])
 
 
 def validate_metrics_mapping(service_name, metrics_mapping):
     """Test that the metrics mapping of a service is valid."""
-    valid_metric_types = ["counter", "summary"]
+    valid_metric_types = ["counter", "summary", "histogram", "gauge"]
 
     if not isinstance(metrics_mapping, dict):
         raise ValueError(
