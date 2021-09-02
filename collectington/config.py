@@ -127,6 +127,8 @@ def validate_service(service_name, service):
     for field in strings:
         if not isinstance(service[field], str):
             raise ValueError(f"Invalid config: {field} fields should be a string")
+        if not isinstance(service["port"], int):
+            raise ValueError("Invalid config: port should be an integer")
 
     validate_metrics_mapping(service_name, service["prometheus_metrics_mapping"])
 
