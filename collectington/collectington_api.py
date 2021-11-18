@@ -168,12 +168,12 @@ class CollectingtonApi(ABC):
 
     def _init_p_method(self, p_method, api_metric):
         """Internal method to metric methods with labels only if they're provided."""
-        if (
-            self.config.get("prometheus_metric_labels") is not None
-            and api_metric in self.config["prometheus_metric_labels"]
-        ):
-            labels = self.config["prometheus_metric_labels"][api_metric]
-            return p_method(api_metric, api_metric, labels)
+        for service in self.config["services"]:
+            if (self.config["services"][service].get("prometheus_metric_labels") is not None
+                and api_metric in self.config["services"][service]["prometheus_metric_labels"]
+            ):
+                labels = self.config["services"][service]["prometheus_metric_labels"][api_metric]
+                return p_method(api_metric, api_metric, labels)
 
         return p_method(api_metric, api_metric)
 
@@ -204,17 +204,21 @@ class CollectingtonApi(ABC):
         """
         for p_instance in list_of_metric_instances:
             metric = str(p_instance).split(":")[1]
+            labels_object = None
+            for service in self.config["services"]:
+                if (
+                    self.config["services"][service].get("prometheus_metric_labels") is not None
+                    and metric in self.config["services"][service]["prometheus_metric_labels"]
+                ):
+                    labels_object = self.config["services"][service]["prometheus_metric_labels"]
+                    break
 
-            if (
-                self.config.get("prometheus_metric_labels") is not None
-                and metric in self.config["prometheus_metric_labels"]
-            ):
+            if (labels_object is not None):
                 for labels_and_metric_object in service_metric_dict[metric]:
-                    label_list = self.config["prometheus_metric_labels"][metric]
-                    labels, val = self._split_labeled_metric_dict(
-                        labels_and_metric_object, label_list
-                    )
+                    label_list = labels_object[metric]
+                    labels, val = self._split_labeled_metric_dict(labels_and_metric_object, label_list)
                     self._update_metric(p_instance.labels(*labels), val)
+
             else:
                 self._update_metric(p_instance, service_metric_dict[metric])
 
