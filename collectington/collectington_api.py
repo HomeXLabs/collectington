@@ -204,17 +204,12 @@ class CollectingtonApi(ABC):
         """
         for p_instance in list_of_metric_instances:
             metric = str(p_instance).split(":")[1]
-            labels_object = None
             if (
                 self.config["services"][self.service_name].get("prometheus_metric_labels") is not None
                 and metric in self.config["services"][self.service_name]["prometheus_metric_labels"]
             ):
-                labels_object = self.config["services"][self.service_name]["prometheus_metric_labels"]
-                break
-
-            if (labels_object is not None):
                 for labels_and_metric_object in service_metric_dict[metric]:
-                    label_list = labels_object[metric]
+                    label_list = self.config["services"][self.service_name]["prometheus_metric_labels"][metric]
                     labels, val = self._split_labeled_metric_dict(labels_and_metric_object, label_list)
                     self._update_metric(p_instance.labels(*labels), val)
 
