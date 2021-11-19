@@ -85,7 +85,9 @@ if __name__ == "__main__":
     logger.info("Generating Prometheus Metric Instances")
     list_of_metric_instances = api_service.generate_prometheus_metric_instances()
 
-    logger.info("Setting up HTTP Server - PORT: %s", config["services"][service_name]["port"])
+    logger.info(
+        "Setting up HTTP Server - PORT: %s", config["services"][service_name]["port"]
+    )
     start_http_server(config["services"][service_name]["port"])
 
     while True:
